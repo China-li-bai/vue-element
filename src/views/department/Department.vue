@@ -32,39 +32,36 @@
         </el-table-column>
     </el-table>
         <!--对话框-->
-    <dept-dialog/>
-        <!--<el-dialog :title=dynaTitle :visible.sync="depVisible">-->
-            <!--<el-form :model="form">-->
-                <!--<el-form-item label="部门名称" label-width="80px">-->
-                    <!--<el-input v-model="form.name" autocomplete="off"></el-input>-->
-                <!--</el-form-item>-->
-                <!--<el-form-item label="部门编号" label-width="80px">-->
-                    <!--<el-input v-model="form.sn" autocomplete="off"></el-input>-->
+        <el-dialog :title=dynaTitle :visible.sync="depVisible">
+            <el-form :model="form">
+                <el-form-item label="部门名称" label-width="80px">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="部门编号" label-width="80px">
+                    <el-input v-model="form.sn" autocomplete="off"></el-input>
 
-                <!--</el-form-item>-->
-            <!--</el-form>-->
-            <!--<div slot="footer" class="dialog-footer">-->
-                <!--<el-button @click="depVisible = false">取 消</el-button>-->
-                <!--<el-button type="primary" @click="submit()">确 定</el-button>-->
-            <!--</div>-->
-        <!--</el-dialog>-->
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="depVisible = false">取 消</el-button>
+                <el-button type="primary" @click="submit()">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     //引入
     import {getDepartments,editDepartments} from '@/request/api';
-    import DeptDialog from "./children/DeptDialog";
-
+    import qs from 'qs';
     export default {
         name: "Department",
-        components: {DeptDialog},
         data(){
             return{
                 deptLists:[],
                 depVisible:false,
-                // form:{ },
-                // dynaTitle:''
+                form:{ },
+                dynaTitle:''
             }
         },
         methods:{
@@ -83,17 +80,17 @@
                 // this.form = JSON.parse(JSON.stringify(row))
                 this.form  = {...row }
             },
-            // submit(){
-            //     editDepartments(
-            //          /* qs.stringify 将对象 转为字符串 */
-            //         {
-            //             name: this.form.name,
-            //             sn: this.form.sn,
-            //             id: this.form.id,
-            //             token:localStorage.getItem('token'),
-            //         }
-            //     )
-            // },
+            submit(){
+                editDepartments(
+                     /* qs.stringify 将对象 转为字符串 */
+                    {
+                        name: this.form.name,
+                        sn: this.form.sn,
+                        id: this.form.id,
+                        token:localStorage.getItem('token'),
+                    }
+                )
+            },
 
             /**删除按钮触发事件*/
             odelete(){
